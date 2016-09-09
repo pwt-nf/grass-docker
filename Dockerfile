@@ -5,7 +5,6 @@
 # subversion checkout compiled against a specific GDAL version.
 #
 
-# Ubuntu 14.04 Trusty Tahyr
 FROM ubuntu:trusty
 
 MAINTAINER Homme Zwaagstra <hrz@geodata.soton.ac.uk>
@@ -25,7 +24,8 @@ VOLUME ["/data"]
 ENV SHELL /bin/bash
 
 # All commands are executed by grass.
-ENTRYPOINT ["grass"]
+ENTRYPOINT ["/bin/bash"]
 
 # Output GRASS version by default.
-CMD ["--help]
+CMD ["--help]q
+

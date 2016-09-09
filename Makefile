@@ -20,6 +20,19 @@ BUILD_PACKAGES := build-essential \
 flex bison cmake ccache \
 checkinstall
 
+# # Additional packages that wond be removed.
+# NICE_TO_HAVE := aptitude \
+# emacs \
+# postgresql-${PG_MAJOR}-postgis-${POSTGIS_MAJOR}=${POSTGIS_VERSION} \
+# postgis=$POSTGIS_VERSION \
+
+#users
+NF := nf_geo
+NF_pass := nfdocker000
+PWT := nf_pete
+PWT_pass = nfd0ckerpwt
+
+
 # Runtime dependencies satisfied by packages.
 DEPS_PACKAGES := python python-dev \
 python-dateutil libgsl0-dev python-numpy \
@@ -118,6 +131,14 @@ $(BUILD_ESSENTIAL): /tmp/apt-updated
 /tmp/apt-updated:
 	apt-get update -y && touch /tmp/apt-updated
 
+## Build Addtions
+users:
+	useradd -p `mkpasswd "${NF_pass}"` -d /home/"${NF}" -m -g users -s /bin/bash "${NF}"
+	usermod -aG sudo ${NF}
+	useradd -p `mkpasswd "${PWT_pass}"` -d /home/"${PWT}" -m -g users -s /bin/bash "${PWT}"
+	usermod -aG sudo ${PWT}
+
+
 # Remove build time dependencies.
 clean:
 	make -C /usr/local/src/gdal-docker clean \
@@ -130,3 +151,4 @@ clean:
 	&& rm -rf /var/lib/apt/lists/partial/* /tmp/* /var/tmp/*
 
 .PHONY: install clean
+
